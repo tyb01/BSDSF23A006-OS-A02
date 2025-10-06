@@ -1,13 +1,28 @@
+# Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
-SRC = src/main.c src/lsv1.1.0.c
-BIN = bin/ls
+CFLAGS = -Wall -Wextra -std=c11 -Iinclude
 
-all: $(BIN)
+# Directories
+SRC_DIR = src
+BIN_DIR = bin
 
-$(BIN): $(SRC)
-	mkdir -p bin
-	$(CC) $(CFLAGS) -o $(BIN) $(SRC)
+# Source files
+SRC = $(SRC_DIR)/main.c $(SRC_DIR)/lsv1.3.0.c
 
+# Output binary
+TARGET = $(BIN_DIR)/ls
+
+# Default target
+all: $(BIN_DIR) $(TARGET)
+
+# Create binary directory
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+
+# Compile binary
+$(TARGET): $(SRC)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
+
+# Clean compiled files
 clean:
-	rm -rf bin
+	rm -rf $(BIN_DIR)

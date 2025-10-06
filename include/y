@@ -1,0 +1,7 @@
+#ifndef LSV1_3_0_H
+#define LSV1_3_0_H
+
+void do_ls(const char *dirname, int display_mode, int show_all);
+
+#endif
+
