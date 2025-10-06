@@ -5,24 +5,30 @@ CFLAGS = -Wall -Wextra -std=c11 -Iinclude
 # Directories
 SRC_DIR = src
 BIN_DIR = bin
+OBJ_DIR = obj
 
-# Source files
-SRC = $(SRC_DIR)/main.c $(SRC_DIR)/lsv1.3.0.c
-
-# Output binary
+# Files
+SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/lsv1.4.0.c
+OBJS = $(OBJ_DIR)/main.o $(OBJ_DIR)/lsv1.4.0.o
 TARGET = $(BIN_DIR)/ls
 
 # Default target
-all: $(BIN_DIR) $(TARGET)
+all: $(TARGET)
 
-# Create binary directory
+# Create binary
+$(TARGET): $(SRCS) | $(BIN_DIR) $(OBJ_DIR)
+	$(CC) $(CFLAGS) -o $@ $(SRCS)
+
+# Directories
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
-# Compile binary
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 # Clean compiled files
 clean:
-	rm -rf $(BIN_DIR)
+	rm -rf $(BIN_DIR) $(OBJ_DIR)
+
+# Phony targets
+.PHONY: all clean

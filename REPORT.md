@@ -1,17 +1,19 @@
-Q1. Explain the general logic for printing items in a "down then across" columnar format. Why is a simple single loop insufficient?
+Q1: Why read all directory entries into memory before sorting?
+We need all filenames in memory because sorting requires comparing any two filenames freely. Without storing them first, we cannot rearrange or sort the list.
+Drawback: For directories with millions of files, this uses a lot of memory and can slow down or crash the program.
 
-First, all filenames are stored in an array.
+Q2: Purpose and signature of qsort comparison function
+qsort() needs a function to compare two elements. Signature:
 
-Calculate the number of columns and rows based on terminal width and longest filename.
+int cmp(const void *a, const void *b);
 
-Print row by row: for each row, print the item in that row from each column (index = row + col * num_rows).
 
-A simple single loop prints sequentially left-to-right only, so columns would not align “down then across.”
+It casts the const void* pointers to the correct type (here, char **) and returns:
 
-Q2. What is the purpose of the ioctl system call? Limitations if using a fixed width?
+<0 if a < b
 
-ioctl with TIOCGWINSZ retrieves the current terminal width.
+0 if a == b
 
-This allows column layout to adapt dynamically.
+>0 if a > b
 
-Using a fixed width (e.g., 80) may cause columns to overflow or look uneven on larger/smaller terminals.
+Reason for const void *: Allows qsort() to be generic and work with any data type.

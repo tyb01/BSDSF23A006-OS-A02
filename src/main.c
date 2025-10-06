@@ -1,42 +1,32 @@
 #include <getopt.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>     // getopt
-#include <dirent.h>
-#include <string.h>
-#include "lsv1.3.0.h"
+#include "lsv1.4.0.h"
+#include <unistd.h>
 
 int main(int argc, char *argv[]) {
     int opt;
-    int display_mode = 0; // 0 = default down-then-across, 1 = long, 2 = horizontal
-    int show_all = 0;     // -a flag
-    char *directory = "."; // default directory
+    DisplayMode mode = DISPLAY_DEFAULT;
 
-    // Parse options
-    while ((opt = getopt(argc, argv, "lxa")) != -1) {
+    // Parse command-line options
+    while ((opt = getopt(argc, argv, "lx")) != -1) {
         switch (opt) {
             case 'l':
-                display_mode = 1;
+                mode = DISPLAY_LONG;
                 break;
             case 'x':
-                display_mode = 2;
-                break;
-            case 'a':
-                show_all = 1;
+                mode = DISPLAY_HORIZONTAL;
                 break;
             default:
-                fprintf(stderr, "Usage: %s [-l] [-x] [-a] [directory]\n", argv[0]);
-                exit(EXIT_FAILURE);
+                fprintf(stderr, "Usage: %s [-l] [-x] [directory]\n", argv[0]);
+                return 1;
         }
     }
 
-    // Check if directory is specified
-    if (optind < argc) {
-        directory = argv[optind];
-    }
+    // Determine directory
+    const char *dir = ".";
+    if (optind < argc) dir = argv[optind];
 
-    // Call do_ls with flags
-    do_ls(directory, display_mode, show_all);
+    // Call ls function
+    do_ls(dir, mode);
 
     return 0;
 }
