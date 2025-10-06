@@ -1,15 +1,17 @@
-Q1: Difference between stat() and lstat()
+Q1. Explain the general logic for printing items in a "down then across" columnar format. Why is a simple single loop insufficient?
 
-stat() returns information about the target file a symbolic link points to, while lstat() returns information about the link itself.
-Use lstat() in ls when you need to identify and display symbolic links instead of the files they reference.
+First, all filenames are stored in an array.
 
-Q2: Using st_mode with bitwise operators
+Calculate the number of columns and rows based on terminal width and longest filename.
 
-The st_mode field contains both file type and permission bits.
-Use bitwise AND (&) with macros to extract them, for example:
+Print row by row: for each row, print the item in that row from each column (index = row + col * num_rows).
 
-(st.st_mode & S_IFMT) == S_IFDIR   // checks if directory
-(st.st_mode & S_IRUSR)             // checks user read permission
+A simple single loop prints sequentially left-to-right only, so columns would not align “down then across.”
 
+Q2. What is the purpose of the ioctl system call? Limitations if using a fixed width?
 
-S_IFDIR, S_IFREG, S_IRUSR, etc., are predefined macros for file types and permissions
+ioctl with TIOCGWINSZ retrieves the current terminal width.
+
+This allows column layout to adapt dynamically.
+
+Using a fixed width (e.g., 80) may cause columns to overflow or look uneven on larger/smaller terminals.

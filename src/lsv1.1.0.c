@@ -99,3 +99,17 @@ void do_ls_long(const char *dirname) {
 
     closedir(dir);
 }
+void do_ls(const char *dirname) {
+    DIR *dir = opendir(dirname);
+    if (!dir) {
+        perror("opendir");
+        return;
+    }
+
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL) {
+        printf("%s  ", entry->d_name);
+    }
+    printf("\n");
+    closedir(dir);
+}
