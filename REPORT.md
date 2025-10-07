@@ -1,19 +1,3 @@
-Q1: Why read all directory entries into memory before sorting?
-We need all filenames in memory because sorting requires comparing any two filenames freely. Without storing them first, we cannot rearrange or sort the list.
-Drawback: For directories with millions of files, this uses a lot of memory and can slow down or crash the program.
+How ANSI escape codes work + green example: Terminals interpret sequences beginning with ESC (\033[), parameters, and m to set styles. Example for green: "\033[0;32mYourText\033[0m".
 
-Q2: Purpose and signature of qsort comparison function
-qsort() needs a function to compare two elements. Signature:
-
-int cmp(const void *a, const void *b);
-
-
-It casts the const void* pointers to the correct type (here, char **) and returns:
-
-<0 if a < b
-
-0 if a == b
-
->0 if a > b
-
-Reason for const void *: Allows qsort() to be generic and work with any data type.
+Which st_mode bits to check for executability: Check S_IXUSR, S_IXGRP, S_IXOTH (owner, group, others). If any are set, the file is executable by that class.
