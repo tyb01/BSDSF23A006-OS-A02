@@ -1,3 +1,9 @@
-How ANSI escape codes work + green example: Terminals interpret sequences beginning with ESC (\033[), parameters, and m to set styles. Example for green: "\033[0;32mYourText\033[0m".
+### Feature 7: Recursive Listing (-R)
 
-Which st_mode bits to check for executability: Check S_IXUSR, S_IXGRP, S_IXOTH (owner, group, others). If any are set, the file is executable by that class.
+**Q1: What is a base case in recursion, and what is it here?**  
+A base case is the condition that stops further recursive calls.  
+In our recursive `do_ls`, the base case occurs when there are no more subdirectories to traverse — i.e., it skips files and does not recurse into "." or "..".
+
+**Q2: Why must we construct a full path before recursion?**  
+Because `lstat()` needs the complete path (like "parent/subdir") to access metadata of subdirectories correctly.  
+If we used only the name, it would look for files in the wrong directory and fail to recurse properly.

@@ -1,18 +1,11 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -Iinclude
-SRC = src/main.c src/lsv1.5.0.c
-TARGET = bin/ls
+SRC = src/main.c src/lsv1.6.0.c
+OUT = bin/ls
 
-.PHONY: all clean
-
-all: $(TARGET)
-
-$(TARGET): $(SRC) | bin
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
-
-bin:
+all:
 	mkdir -p bin
+	$(CC) $(CFLAGS) -o $(OUT) $(SRC)
 
 clean:
 	rm -rf bin
-
